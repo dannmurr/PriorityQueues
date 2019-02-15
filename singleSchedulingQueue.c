@@ -28,11 +28,11 @@ void enqueue(int x) {
 }
 
 
-void dequeue() {
+int dequeue() {
 	struct Node* temp = first;
 	if(first == NULL) {
 		printf("Queue is Empty\n");
-		return;
+		return 0;
 	}
 	if(first == last) {
 		first = NULL;
@@ -41,7 +41,9 @@ void dequeue() {
 	else {
 		first = first->next;
 	}
+	int data = temp->data;
 	free(temp);
+	return data;
 }
 
 int getFirst() {
@@ -50,6 +52,12 @@ int getFirst() {
 		return 0;
 	}
 	return first->data;
+}
+
+void generateEvent(){
+    int newPriority = rand()% 10 + 1;
+    enqueue(newPriority);
+    printf("generated priority: %d\n", newPriority);
 }
 
 void print() {
@@ -61,13 +69,20 @@ void print() {
 	printf("\n");
 }
 
-int main(){
-	enqueue(1); print(); 
-	enqueue(3); print();
-	enqueue(2); print();
-	enqueue(2); print();
-	dequeue();  print();
-	dequeue(); print();
-	dequeue(); print();
-	dequeue(); print();
+int main() {
+    int N = 3;
+    srand(time(0));
+    enqueue(1);
+    
+    while(first != NULL){
+        int priority = dequeue();
+        int i = rand() %N;
+        int j;
+        printf("dequed %d\n", priority);
+        for(j = 0; j < i; j++){
+             generateEvent();
+        }
+        print();
+    }
+
 }

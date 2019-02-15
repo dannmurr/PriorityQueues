@@ -13,7 +13,6 @@ void enqueue(int x) {
 	struct Node* temp = 
 		(struct Node*)malloc(sizeof(struct Node));
 	temp->data = x; 
-	//temp->next = NULL;
 	if(first == NULL || first->data > temp->data){
 		temp->next = first;
 		first = temp;
@@ -62,12 +61,19 @@ void print() {
 }
 
 int main(){
-	enqueue(1); print(); 
-	enqueue(3); print();
-	enqueue(2); print();
-	enqueue(2); print();
-	dequeue();  print();
-	dequeue(); print();
-	dequeue(); print();
-	dequeue(); print();
-}
+    int N = 10;
+    time_t t;
+    srand ((unsigned) time(&t));
+
+    printf("the time is %f\n", (double) time(NULL));
+    enqueue((double) time(NULL));
+
+    while(heapSize > 0){
+        double timeStamp = dequeue().priority;
+        int i = rand() %N;
+        int j;
+        printf("original %lf\n", timeStamp);
+        for(j = 0; j < i; j++){
+             generateEvent(timeStamp);
+        }
+    }

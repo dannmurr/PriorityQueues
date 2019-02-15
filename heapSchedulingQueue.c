@@ -74,14 +74,11 @@ void printHeap(){
 }
 
 int main() {
-    int iter;
     init();
     int N = 3;
     srand(time(0));
-
     enqueue(1);
-    printf("heapsize: %d\n", heapSize);
-
+    
     while(heapSize > 0){
         int priority = dequeue().priority;
         int i = rand() %N;
