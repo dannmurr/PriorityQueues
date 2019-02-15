@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include<limits.h>
 #include<stdlib.h>
- 
- 
+#include<time.h>
+#include<sys/time.h>
+
 struct Element{
-    int label; 
+    int label;
     int priority;
 };
 
@@ -15,21 +16,19 @@ int counter;
 void init() {
     heapSize = 0;
     counter = 0;
-    struct Element temp; 
+    struct Element temp;
     temp.label = counter++;
     temp.priority =-INT_MAX;
     heap[0] = temp;
 }
- 
+
 void enqueue(int epriority) {
-    printf("debug1");
     heapSize++;
     struct Element temp;
     temp.label = counter++;
     temp.priority = epriority;
-    heap[heapSize] = temp; 
+    heap[heapSize] = temp;
     int now = heapSize;
-    printf("debug");
     while (heap[now / 2].priority > epriority) {
         heap[now] = heap[now / 2];
         now /= 2;
@@ -37,14 +36,8 @@ void enqueue(int epriority) {
     heap[now] = temp;
 }
 
-void generateEvent(){
-    int newPriority = rand()% 10 + 1;
-    enqueue(newPriority);
-    printf("generated priority: %d\n", newPriority);
-}
- 
 struct Element dequeue() {
-    struct Element minElement, lastElement; 
+    struct Element minElement, lastElement;
     int child, now;
     minElement = heap[1];
     lastElement = heap[heapSize--];
@@ -55,7 +48,7 @@ struct Element dequeue() {
         }
         if (lastElement.priority > heap[child].priority) {
             heap[now] = heap[child];
-        } else 
+        } else
         {
             break;
         }
@@ -63,14 +56,20 @@ struct Element dequeue() {
     heap[now] = lastElement;
     return minElement;
 }
- 
+
+void generateEvent(){
+    int newPriority = rand()% 10 + 1;
+    enqueue(newPriority);
+    printf("generated priority: %d\n", newPriority);
+}
+
 void printHeap(){
     int i;
     printf("[");
-    for(i = 1; i < heapSize + 1; i++){
+    for(i = 1; i < heapSize; i++){
         printf("%d, ", heap[i].priority);
     }
-    printf("]\n");
+    printf("%d]\n", heap[i].priority);
 }
 
 int main() {
@@ -78,17 +77,16 @@ int main() {
     int N = 3;
     srand(time(0));
     enqueue(1);
-    
+
     while(heapSize > 0){
         int priority = dequeue().priority;
         int i = rand() %N;
         int j;
-        printf("original %d\n", priority);
+        printf("dequeued %d\n", priority);
         for(j = 0; j < i; j++){
-             generateEvent();
+            generateEvent();
         }
         printHeap();
     }
-
     return 0;
 }
