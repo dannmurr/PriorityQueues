@@ -19,7 +19,7 @@ void init() {
     counter = 0;
     struct Element temp; 
     temp.label = counter++;
-    temp.priority =-DBL_MAX;
+    temp.priority = -DBL_MAX;
     heap[0] = temp;
 }
  
@@ -61,33 +61,34 @@ struct Element dequeue() {
  
 
 double increment(){
-    time_t t;
-    srand ((unsigned) time(&t));
-    return rand() % 50;
+    return rand() % 48 + 2;
 }
 
 void generateEvent(double removedElementTimeStamp){
-    enqueue(removedElementTimeStamp + increment());
+    double newTime = removedElementTimeStamp + increment();
+    enqueue(newTime);
+    printf("generated time: %lf\n", newTime);
 }
 
 int main(){
-    int number_of_elements = 1;
     int iter;
-    double element;
     init();
+    int N = 10;
+    time_t t;
+    srand ((unsigned) time(&t));
 
-    enqueue(0.0);
+    printf("the time is %f\n", (double) time(NULL));
+    enqueue((double) time(NULL));
+    printf("heapsize: %d\n", heapSize);
 
-    generateEvent(dequeue().priority);
-
-    while(heapSize > 1){
-
-    }
-
-
-    for (iter = 0; iter < number_of_elements; iter++) {
-        struct Element temp = dequeue(); 
-        printf("%f %d\n", temp.priority, temp.label);
+    while(heapSize > 0){
+        double timeStamp = dequeue().priority;
+        int i = rand() %N;
+        int j;
+        printf("original %lf\n", timeStamp);
+        for(j = 0; j < i; j++){
+             generateEvent(timeStamp);
+        }
     }
 
 
