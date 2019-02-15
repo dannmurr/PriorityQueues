@@ -12,15 +12,19 @@ struct Node* last = NULL;
 void enqueue(int x) {
 	struct Node* temp = 
 		(struct Node*)malloc(sizeof(struct Node));
-	temp->data =x; 
-	temp->next = NULL;
-	if(first == NULL && last == NULL){
+	temp->data = x; 
+	//temp->next = NULL;
+	if(first == NULL || first->data > temp->data){
+		temp->next = first;
 		first = temp;
-		last = temp;
 		return;
 	}
-	last->next = temp;
-	last = temp;
+	struct Node *current = first;
+	while(current->next != NULL && current->next->data <= temp->data){
+		current = current->next;
+	}
+	temp->next = current->next;
+	current->next = temp;
 }
 
 
@@ -58,14 +62,12 @@ void print() {
 }
 
 int main(){
-	enqueue(2); print(); 
-	enqueue(4); print();
-	enqueue(6); print();
+	enqueue(1); print(); 
+	enqueue(3); print();
+	enqueue(2); print();
+	enqueue(2); print();
 	dequeue();  print();
-	enqueue(8); print();
 	dequeue(); print();
 	dequeue(); print();
 	dequeue(); print();
-	dequeue(); print();
-
 }
