@@ -15,24 +15,32 @@ int counter;
 void init() {
     heapSize = 0;
     counter = 0;
-    struct Element *temp; 
-    temp->label = counter++;
-    temp->priority =-INT_MAX;
-    heap[0] = *temp;
+    struct Element temp; 
+    temp.label = counter++;
+    temp.priority =-INT_MAX;
+    heap[0] = temp;
 }
  
 void enqueue(int epriority) {
+    printf("debug1");
     heapSize++;
     struct Element temp;
     temp.label = counter++;
     temp.priority = epriority;
     heap[heapSize] = temp; 
     int now = heapSize;
+    printf("debug");
     while (heap[now / 2].priority > epriority) {
         heap[now] = heap[now / 2];
         now /= 2;
     }
     heap[now] = temp;
+}
+
+void generateEvent(){
+    int newPriority = rand()% 10 + 1;
+    enqueue(newPriority);
+    printf("generated priority: %d\n", newPriority);
 }
  
 struct Element dequeue() {
@@ -56,21 +64,34 @@ struct Element dequeue() {
     return minElement;
 }
  
+void printHeap(){
+    int i;
+    printf("[");
+    for(i = 1; i < heapSize + 1; i++){
+        printf("%d, ", heap[i].priority);
+    }
+    printf("]\n");
+}
+
 int main() {
-    int number_of_elements;
-    printf("Program to demonstrate Heap:\nEnter the number of elements: ");
-    scanf("%d", &number_of_elements);
-    int iter, element;
+    int iter;
     init();
-    printf("Enter the elements: ");
-    for (iter = 0; iter < number_of_elements; iter++) {
-        scanf("%d", &element);
-        enqueue(element);
+    int N = 3;
+    srand(time(0));
+
+    enqueue(1);
+    printf("heapsize: %d\n", heapSize);
+
+    while(heapSize > 0){
+        int priority = dequeue().priority;
+        int i = rand() %N;
+        int j;
+        printf("original %d\n", priority);
+        for(j = 0; j < i; j++){
+             generateEvent();
+        }
+        printHeap();
     }
-    printf("------------------------------\n" );
-    for (iter = 0; iter < number_of_elements; iter++) {
-        printf("%d   ", dequeue().priority);
-    }
-    printf("\n");
+
     return 0;
 }
