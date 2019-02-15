@@ -1,15 +1,16 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<limits.h>
+#include<time.h>
  
  struct Node {
-	int data;
+	double data;
 	struct Node* next;
 };
 struct Node* first = NULL;
 struct Node* last = NULL;
 
-void enqueue(int x) {
+void enqueue(double x) {
 	struct Node* temp = 
 		(struct Node*)malloc(sizeof(struct Node));
 	temp->data = x; 
@@ -27,11 +28,11 @@ void enqueue(int x) {
 }
 
 
-void dequeue() {
+double dequeue() {
 	struct Node* temp = first;
 	if(first == NULL) {
 		printf("Queue is Empty\n");
-		return;
+		return -1;
 	}
 	if(first == last) {
 		first = NULL;
@@ -40,40 +41,47 @@ void dequeue() {
 	else {
 		first = first->next;
 	}
+	double data = temp->data;
 	free(temp);
+	return data;
 }
 
-int getFirst() {
-	if(first == NULL) {
-		printf("Queue is empty\n");
-		return 0;
-	}
-	return first->data;
+double increment(){
+    return rand() % 48 + 2;
 }
+
+void generateEvent(double removedElementTimeStamp){
+    double newTime = removedElementTimeStamp + increment();
+    enqueue(newTime);
+    printf("generated time: %lf\n", newTime);
+}
+
 
 void print() {
 	struct Node* temp = first;
 	while(temp != NULL) {
-		printf("%d ",temp->data);
+		printf("%lf ",temp->data);
 		temp = temp->next;
 	}
 	printf("\n");
 }
 
 int main(){
-    int N = 10;
+    int N = 3;
     time_t t;
     srand ((unsigned) time(&t));
 
     printf("the time is %f\n", (double) time(NULL));
     enqueue((double) time(NULL));
 
-    while(heapSize > 0){
-        double timeStamp = dequeue().priority;
+    while(first != NULL){
+        double timeStamp = dequeue();
         int i = rand() %N;
         int j;
-        printf("original %lf\n", timeStamp);
+        printf("dequed %lf\n", timeStamp);
         for(j = 0; j < i; j++){
              generateEvent(timeStamp);
         }
+        print();
     }
+}

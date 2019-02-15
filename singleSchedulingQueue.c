@@ -32,7 +32,7 @@ int dequeue() {
 	struct Node* temp = first;
 	if(first == NULL) {
 		printf("Queue is Empty\n");
-		return 0;
+		return NULL;
 	}
 	if(first == last) {
 		first = NULL;
