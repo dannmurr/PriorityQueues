@@ -56,18 +56,25 @@ int getListSize() {
 }
 
 void generateEvent(){
-	int newPriority = rand()% 10 + 1;
+	int newPriority = genrateRandomPriority();
 	enqueue(newPriority);
 	printf(" %d ", newPriority);
 }
 
+int genrateRandomPriority() {
+    return (rand()% 10 + 1);
+}
+
 void printList() {
 	struct Node* temp = first;
-	printf("list size: %d\n", list_size);
+	//printf("list size: %d\n", list_size);
+	if(first == NULL) {
+	    printf("List is empty");
+	}
 	while(temp != NULL) {
 		printf("%d --> ",temp->data);
 		temp = temp->next;
 	}
-	printf("\n \n");
+	printf("\n");
 }
 

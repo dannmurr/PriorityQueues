@@ -12,6 +12,8 @@ int getListSize();
 
 void generateEvent();
 
+int genrateRandomPriority();
+
 void printList();
 
 #endif
