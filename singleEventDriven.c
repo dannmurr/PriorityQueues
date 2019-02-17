@@ -9,14 +9,15 @@ struct Node {
 };
 struct Node* first = NULL;
 struct Node* last = NULL;
+int list_size = 0;
 
 void enqueue(double x) {
-	struct Node* temp =
-			(struct Node*)malloc(sizeof(struct Node));
+	struct Node* temp =(struct Node*)malloc(sizeof(struct Node));
 	temp->data = x;
 	if(first == NULL || first->data > temp->data){
 		temp->next = first;
 		first = temp;
+		list_size++;
 		return;
 	}
 	struct Node *current = first;
@@ -25,13 +26,14 @@ void enqueue(double x) {
 	}
 	temp->next = current->next;
 	current->next = temp;
+	list_size++;
 }
-
 
 double dequeue() {
 	struct Node* temp = first;
 	if(first == NULL) {
 		printf("Queue is Empty\n");
+		list_size = 0;
 		return -1;
 	}
 	if(first == last) {
@@ -43,44 +45,34 @@ double dequeue() {
 	}
 	double data = temp->data;
 	free(temp);
+	list_size--;
 	return data;
 }
 
-double increment(){
-	return rand() % 48 + 2;
+int getListSize() {
+	return list_size;
+}
+
+double increment_randomly(){
+	return rand() % 98 + 2;
 }
 
 void generateEvent(double removedElementTimeStamp){
-	double newTime = removedElementTimeStamp + increment();
+	double newTime = removedElementTimeStamp + increment_randomly();
 	enqueue(newTime);
-	printf("generated time: %lf\n", newTime);
+	printf(" %lf ", newTime);
+
 }
 
-void print() {
+void printList() {
 	struct Node* temp = first;
+	printf("list size: %d\n", list_size);
+	if(first == NULL) {
+		printf("List is empty");
+	}
 	while(temp != NULL) {
 		printf("%lf --> ",temp->data);
 		temp = temp->next;
 	}
 	printf("\n");
-}
-
-int main(){
-	int N = 3;
-	time_t t;
-	srand ((unsigned) time(&t));
-
-	printf("the time is %f\n", (double) time(NULL));
-	enqueue((double) time(NULL));
-
-	while(first != NULL){
-		double timeStamp = dequeue();
-		int i = rand() %N;
-		int j;
-		printf("dequed %lf\n", timeStamp);
-		for(j = 0; j < i; j++){
-			generateEvent(timeStamp);
-		}
-		print();
-	}
 }

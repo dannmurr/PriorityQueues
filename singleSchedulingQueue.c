@@ -67,7 +67,7 @@ int genrateRandomPriority() {
 
 void printList() {
 	struct Node* temp = first;
-	//printf("list size: %d\n", list_size);
+    printf("list size: %d\n", list_size);
 	if(first == NULL) {
 	    printf("List is empty");
 	}

@@ -2,37 +2,41 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<time.h>
-#include<sys/time.h>
-#include "singleSchedulingQueue.h"
+#include "singleEventDriven.h"
 
-void simulate_test() {
+int simulate_test(){
     int number_of_enqueued_elements = 3;
-    int max_number_of_elements = 1000;
-    srand(time(0));
-    enqueue(1);
+    int max_number_of_elements = 10;
+    time_t t;
+    srand ((unsigned) time(&t));
+    enqueue((double) time(NULL));
 
     while(getListSize() > 0 && getListSize() < max_number_of_elements){
-        int priority = dequeue();
+        double timeStamp = dequeue();
         int j;
-        printf("dequeued: %d, enqueued: ", priority);
+        printf("dequeued: %lf, enqueued: ", timeStamp);
         for(j = 0; j < number_of_enqueued_elements; j++){
-            generateEvent();
+            generateEvent(timeStamp);
         }
         printList();
     }
 }
 
 void enqueue_to_empty_list() {
+    time_t t;
+    srand ((unsigned) time(&t));
     printList();
-    enqueue(106);
+    enqueue((double) time(NULL));
     printList();
 }
 
 void enqueue_multiple_elements_to_list() {
+    time_t t;
+    srand ((unsigned) time(&t));
     printList();
-    enqueue(106);
-    enqueue(190);
-    enqueue(8);
+    enqueue((double) time(NULL));
+    enqueue((double) time(NULL) + 1);
+    enqueue((double) time(NULL) + 2);
     printList();
 }
 
@@ -41,14 +45,19 @@ void dequeue_from_empty_list() {
 }
 
 void dequeue_element_from_list() {
-    enqueue(106); enqueue(190); enqueue(8);
+    enqueue((double) time(NULL));
+    enqueue((double) time(NULL) + 10);
+    printList();
+    enqueue((double) time(NULL) + 2);
     printList();
     printf("After dequeue element: "); dequeue();
     printList();
 }
 
 void get_list_size_test() {
-    enqueue(106); enqueue(190); enqueue(8);
+    enqueue((double) time(NULL));
+    enqueue((double) time(NULL) + 1);
+    enqueue((double) time(NULL) + 2);
     printf("Expected 3 elements - result %d elements", getListSize());
 }
 
@@ -60,20 +69,20 @@ void generate_random_priority_test() {
     srand(time(0));
 
     for (i=0; i < num_of_elements; i++) {
-        randInt = genrateRandomPriority();
+        randInt = increment_randomly();
         sum += randInt;
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %d - result %lf", 5, actualAverage);
+    printf("\nExpected %d - result %lf", 51, actualAverage);
 }
 
 int main() {
-    simulate_test();
+    //simulate_test();
     //enqueue_to_empty_list();
     //enqueue_multiple_elements_to_list();
     //dequeue_from_empty_list();
-    //dequeue_element_from_list();
+    dequeue_element_from_list();
     //get_list_size_test();
     //generate_random_priority_test();
 }
