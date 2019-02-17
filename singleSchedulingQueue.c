@@ -8,16 +8,18 @@ struct Node {
 	int data;
 	struct Node* next;
 };
+
 struct Node* first = NULL;
 struct Node* last = NULL;
+int list_size = 0;
 
 void enqueue(int x) {
-	struct Node* temp =
-			(struct Node*)malloc(sizeof(struct Node));
+	struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
 	temp->data = x;
 	if(first == NULL || first->data > temp->data){
 		temp->next = first;
 		first = temp;
+		list_size++;
 		return;
 	}
 	struct Node *current = first;
@@ -26,12 +28,14 @@ void enqueue(int x) {
 	}
 	temp->next = current->next;
 	current->next = temp;
+	list_size++;
 }
 
 int dequeue() {
 	struct Node* temp = first;
 	if(first == NULL) {
 		printf("Queue is Empty\n");
+		list_size = 0;
 		return NULL;
 	}
 	if(first == last) {
@@ -43,37 +47,27 @@ int dequeue() {
 	}
 	int data = temp->data;
 	free(temp);
+	list_size--;
 	return data;
+}
+
+int getListSize() {
+    return list_size;
 }
 
 void generateEvent(){
 	int newPriority = rand()% 10 + 1;
 	enqueue(newPriority);
-	printf("generated priority: %d\n", newPriority);
+	printf(" %d ", newPriority);
 }
 
-void print() {
+void printList() {
 	struct Node* temp = first;
+	printf("list size: %d\n", list_size);
 	while(temp != NULL) {
 		printf("%d --> ",temp->data);
 		temp = temp->next;
 	}
-	printf("\n");
+	printf("\n \n");
 }
 
-int main() {
-	int N = 3;
-	srand(time(0));
-	enqueue(1);
-
-	while(first != NULL){
-		int priority = dequeue();
-		int i = rand() %N;
-		int j;
-		printf("dequed %d\n", priority);
-		for(j = 0; j < i; j++){
-			generateEvent();
-		}
-		print();
-	}
-}
