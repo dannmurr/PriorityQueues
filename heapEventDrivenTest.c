@@ -9,7 +9,7 @@
 int simulate_test(){
     init();
     int number_of_enqueued_elements = 3;
-    int max_number_of_elements = 10;
+    int max_number_of_elements = 1000;
     time_t t;
     srand ((unsigned) time(&t));
     enqueue((double) time(NULL));
@@ -93,12 +93,41 @@ void generate_random_priority_test() {
     printf("\nExpected %lf - result %lf", 50.5, actualAverage);
 }
 
+create_populated_heap() {
+
+}
+
+void get_time_to_enqueue() {
+    init();
+    clock_t start, end;
+    int num_of_iterations = 100000;
+    int i;
+    double randPriority;
+    srand(time(0));
+
+    printHeap();
+    while(i < num_of_iterations) {
+        randPriority = increment_randomly();
+        enqueue(randPriority);
+        i++;
+    }
+    printHeap();
+
+    start = clock();
+    randPriority = increment_randomly();
+    enqueue(randPriority);
+    end = clock();
+    double time_to_enqueue = (end - start) / (double) CLOCKS_PER_SEC;
+    printf("\n\n%lf", time_to_enqueue);
+}
+
 int main() {
-    simulate_test();
+    //simulate_test();
     //enqueue_to_empty_heap();
     //enqueue_multiple_elements_to_heap();
     //dequeue_from_empty_heap();
     //dequeue_from_heap();
     //get_heap_size_test();
     //generate_random_priority_test();
+    get_time_to_enqueue();
 }

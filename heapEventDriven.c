@@ -10,7 +10,7 @@ struct Element{
     double priority;
 };
 
-struct Element heap[10000];
+struct Element heap[1000000];
 int heapSize;
 int counter;
 
