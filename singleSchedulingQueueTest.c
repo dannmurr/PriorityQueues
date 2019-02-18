@@ -65,7 +65,7 @@ void generate_random_priority_test() {
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %d - result %lf", 5, actualAverage);
+    printf("\nExpected %d - result %lf", 5.5, actualAverage);
 }
 
 int main() {

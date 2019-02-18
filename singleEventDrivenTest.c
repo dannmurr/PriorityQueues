@@ -74,15 +74,15 @@ void generate_random_priority_test() {
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %d - result %lf", 51, actualAverage);
+    printf("\nExpected %lf - result %lf", 50.5, actualAverage);
 }
 
 int main() {
-    //simulate_test();
+    simulate_test();
     //enqueue_to_empty_list();
     //enqueue_multiple_elements_to_list();
     //dequeue_from_empty_list();
-    dequeue_element_from_list();
+    //dequeue_element_from_list();
     //get_list_size_test();
     //generate_random_priority_test();
 }

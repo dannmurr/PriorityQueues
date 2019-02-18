@@ -6,7 +6,7 @@
 
 struct Element{
     int label;
-    int priority;
+    int priority
 };
 
 struct Element heap[10000];
@@ -56,11 +56,14 @@ struct Element dequeue() {
     heap[now] = lastElement;
     return minElement;
 }
+int genrateRandomPriority() {
+    return (rand()% 10 + 1);
+}
 
 void generateEvent(){
-    int newPriority = rand()% 10 + 1;
+    int newPriority = genrateRandomPriority();
     enqueue(newPriority);
-    printf("generated priority: %d\n", newPriority);
+    printf(" %d ", newPriority);
 }
 
 void printHeap(){
@@ -69,24 +72,12 @@ void printHeap(){
     for(i = 1; i < heapSize; i++){
         printf("%d, ", heap[i].priority);
     }
-    printf("%d]\n", heap[i].priority);
+    if( heapSize > 0 )
+        printf("%d]\n", heap[i].priority);
+    else
+        printf("] - heap is empty\n");
 }
 
-int main() {
-    init();
-    int N = 3;
-    srand(time(0));
-    enqueue(1);
-
-    while(heapSize > 0){
-        int priority = dequeue().priority;
-        int i = rand() %N;
-        int j;
-        printf("dequeued %d\n", priority);
-        for(j = 0; j < i; j++){
-            generateEvent();
-        }
-        printHeap();
-    }
-    return 0;
+int getHeapSize() {
+    return heapSize;
 }
