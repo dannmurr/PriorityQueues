@@ -22,7 +22,7 @@ int simulate_test(){
             generateEvent(timeStamp);
         }
         printf(" - heap size: %d\n", getHeapSize());
-        printHeap();
+        //printHeap();
     }
 }
 
@@ -94,14 +94,9 @@ void generate_random_priority_test() {
 }
 
 create_populated_heap() {
-
-}
-
-void get_time_to_enqueue() {
     init();
-    clock_t start, end;
     int num_of_iterations = 100000;
-    int i;
+    int i = 0;
     double randPriority;
     srand(time(0));
 
@@ -112,10 +107,25 @@ void get_time_to_enqueue() {
         i++;
     }
     printHeap();
+}
 
+void get_time_to_enqueue() {
+    create_populated_heap();
+    clock_t start, end;
     start = clock();
+    double randPriority;
     randPriority = increment_randomly();
     enqueue(randPriority);
+    end = clock();
+    double time_to_enqueue = (end - start) / (double) CLOCKS_PER_SEC;
+    printf("\n\n%lf", time_to_enqueue);
+}
+
+void get_time_to_dequeue() {
+    create_populated_heap();
+    clock_t start, end;
+    start = clock();
+    dequeue();
     end = clock();
     double time_to_enqueue = (end - start) / (double) CLOCKS_PER_SEC;
     printf("\n\n%lf", time_to_enqueue);
@@ -129,5 +139,6 @@ int main() {
     //dequeue_from_heap();
     //get_heap_size_test();
     //generate_random_priority_test();
-    get_time_to_enqueue();
+    //get_time_to_enqueue();
+    get_time_to_dequeue();
 }

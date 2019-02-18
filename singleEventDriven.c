@@ -60,7 +60,7 @@ double increment_randomly(){
 void generateEvent(double removedElementTimeStamp){
 	double newTime = removedElementTimeStamp + increment_randomly();
 	enqueue(newTime);
-	printf(" %lf ", newTime);
+	//printf(" %lf ", newTime);
 
 }
 
