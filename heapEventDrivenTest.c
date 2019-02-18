@@ -1,23 +1,25 @@
 #include<stdio.h>
 #include<limits.h>
 #include<stdlib.h>
+#include<float.h>
 #include<time.h>
 #include<sys/time.h>
-#include "heapSchedulingQueue.h"
+#include "heapEventDriven.h"
 
-void simulate_test() {
+int simulate_test(){
     init();
     int number_of_enqueued_elements = 3;
-    int max_number_of_elements = 1000;
-    srand(time(0));
-    enqueue(1);
+    int max_number_of_elements = 10;
+    time_t t;
+    srand ((unsigned) time(&t));
+    enqueue((double) time(NULL));
 
     while(getHeapSize() > 0 && getHeapSize() < max_number_of_elements){
-        int priority = dequeue().priority;
+        double timeStamp = dequeue().priority;
         int j;
-        printf("dequeued: %d, enqueued: ", priority);
+        printf("dequeued: %lf, enqueued: ", timeStamp);
         for(j = 0; j < number_of_enqueued_elements; j++){
-            generateEvent();
+            generateEvent(timeStamp);
         }
         printf(" - heap size: %d\n", getHeapSize());
         printHeap();
@@ -27,18 +29,19 @@ void simulate_test() {
 void enqueue_to_empty_heap() {
     init();
     printHeap();
-    enqueue(9);
+    enqueue((double) time(NULL));
     printHeap();
 }
 
 void enqueue_multiple_elements_to_heap() {
     init(); printHeap();
-    enqueue(9); printHeap();
-    enqueue(8); printHeap();
-    enqueue(2); printHeap();
-    enqueue(6); printHeap();
-    enqueue(5); printHeap();
-    enqueue(7); printHeap();
+    enqueue((double) time(NULL));     printHeap();
+    enqueue((double) time(NULL) + 9); printHeap();
+    enqueue((double) time(NULL) + 8); printHeap();
+    enqueue((double) time(NULL) + 2); printHeap();
+    enqueue((double) time(NULL) + 6); printHeap();
+    enqueue((double) time(NULL) + 5); printHeap();
+    enqueue((double) time(NULL) + 7); printHeap();
 }
 
 void dequeue_from_empty_heap() {
@@ -50,12 +53,14 @@ void dequeue_from_empty_heap() {
 
 void dequeue_from_heap() {
     init(); printHeap();
-    enqueue(9); printHeap();
-    enqueue(8); printHeap();
-    enqueue(2); printHeap();
-    enqueue(6); printHeap();
-    enqueue(5); printHeap();
-    enqueue(7); printHeap();
+    enqueue((double) time(NULL));     printHeap();
+    enqueue((double) time(NULL) + 9); printHeap();
+    enqueue((double) time(NULL) + 8); printHeap();
+    enqueue((double) time(NULL) + 2); printHeap();
+    enqueue((double) time(NULL) + 6); printHeap();
+    enqueue((double) time(NULL) + 5); printHeap();
+    enqueue((double) time(NULL) + 7); printHeap();
+    dequeue();  printHeap();
     dequeue();  printHeap();
     dequeue();  printHeap();
     dequeue();  printHeap();
@@ -65,7 +70,9 @@ void dequeue_from_heap() {
 }
 
 void get_heap_size_test() {
-    enqueue(10); enqueue(5); enqueue(8);
+    enqueue((double) time(NULL) + 9);
+    enqueue((double) time(NULL) + 3);
+    enqueue((double) time(NULL) + 6);
     printHeap();
     printf("Expected 3 elements - result %d elements", getHeapSize());
 }
@@ -78,14 +85,13 @@ void generate_random_priority_test() {
     srand(time(0));
 
     for (i=0; i < num_of_elements; i++) {
-        randInt = genrateRandomPriority();
+        randInt = increment_randomly();
         sum += randInt;
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %lf - result %lf", 5.5, actualAverage);
+    printf("\nExpected %lf - result %lf", 50.5, actualAverage);
 }
-
 
 int main() {
     simulate_test();

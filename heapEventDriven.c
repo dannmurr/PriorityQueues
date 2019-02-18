@@ -58,43 +58,28 @@ struct Element dequeue() {
     return minElement;
 }
 
-double increment(){
-    return rand() % 48 + 2;
+double increment_randomly(){
+    return rand() % 98 + 2;
 }
 
 void generateEvent(double removedElementTimeStamp){
-    double newTime = removedElementTimeStamp + increment();
+    double newTime = removedElementTimeStamp + increment_randomly();
     enqueue(newTime);
-    printf("generated time: %lf\n", newTime);
+    printf(" %lf ", newTime);
 }
 
 void printHeap(){
     int i;
     printf("[");
     for(i = 1; i < heapSize; i++){
-        printf("%d, ", heap[i].priority);
+        printf("%lf, ", heap[i].priority);
     }
-    printf("%d]\n", heap[i].priority);
+    if( heapSize > 0 )
+        printf("%lf]\n", heap[i].priority);
+    else
+        printf("] - heap is empty\n");
 }
 
-int main(){
-    init();
-    int N = 3;
-    time_t t;
-    srand ((unsigned) time(&t));
-
-    printf("the time is %f\n", (double) time(NULL));
-    enqueue((double) time(NULL));
-
-    while(heapSize > 0){
-        double timeStamp = dequeue().priority;
-        int i = rand() %N;
-        int j;
-        printf("original %lf\n", timeStamp);
-        for(j = 0; j < i; j++){
-            generateEvent(timeStamp);
-        }
-        printHeap();
-    }
-    return 0;
+int getHeapSize() {
+    return heapSize;
 }
