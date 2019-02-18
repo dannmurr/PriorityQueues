@@ -69,7 +69,7 @@ void generate_random_priority_test() {
 
 void populate_heap() {
     int i;
-    double randPriority;
+    int randPriority;
     srand(time(0));
     int number_of_iterations = 1000000;
     for (i=0; i< number_of_iterations; i++) {
@@ -85,7 +85,7 @@ void get_time_to_enqueue() {
     printf("List size: %d\n", getHeapSize());
     clock_t start, end;
     srand(time(0));
-    double rand = genrateRandomPriority();
+    int rand = genrateRandomPriority();
 
     double sum = 0;
     double mean = 0;
@@ -106,7 +106,7 @@ void get_time_to_dequeue() {
     printf("List size: %d\n", getHeapSize());
     clock_t start, end;
     srand(time(0));
-    double rand = genrateRandomPriority();
+    int rand = genrateRandomPriority();
 
     double sum = 0;
     double mean = 0;
