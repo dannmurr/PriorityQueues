@@ -202,5 +202,6 @@ int main() {
     //get_heap_size_test();
     //generate_random_priority_test();
     //get_time_to_enqueue();
-    get_time_to_dequeue();
+    //get_time_to_dequeue();
+    //get_time_of_simulation();
 }
