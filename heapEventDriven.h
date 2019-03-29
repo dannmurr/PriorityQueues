@@ -17,12 +17,10 @@ struct Element dequeue();
 
 void generateEvent();
 
-double increment_randomly();
+double generate_psuedo_random();
 
 void printHeap();
 
 int getHeapSize();
-
-int genrateRandomPriority();
 
 #endif

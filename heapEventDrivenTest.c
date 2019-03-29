@@ -6,22 +6,40 @@
 #include<sys/time.h>
 #include "heapEventDriven.h"
 
+#define POPULATION_SEED  61631
+#define ARRAY_SIZE 1000
+long* seeds[ARRAY_SIZE] = {
+        48975, 52866, 72658, 16642, 40468, 20400, 98519, 21137, 61286, 80042,
+        49914, 30625, 11265, 19779, 86687, 77363, 24884, 42422, 53252, 99174,
+        19923, 40258, 72127, 84762, 61524, 18873, 92096, 44020, 63001, 59276,
+        89777, 03345, 41177, 10827, 96182, 25951, 72894, 42070, 48280, 57182,
+        41627, 73590, 65559, 94823, 85273, 97949, 51590, 84410, 98468, 37490,
+        20588, 39550, 71647, 27157, 58572, 87226, 55109, 22302, 51943, 38112,
+        48080, 31501, 85015, 81889, 12772, 74364, 70610, 07550, 13449, 64350,
+        49603, 48721, 80488, 16577, 57889, 53967, 99443, 80636, 27944, 82107,
+        25104, 98403, 15390, 22528, 20564, 86852, 50555, 40495, 21278, 45867,
+        42479, 12397, 81300, 82372, 24561, 55532, 92096 , 54427, 70137, 16886,
+};
+
 void enqueue_to_empty_heap() {
     init();
     printHeap();
-    enqueue((double) time(NULL));
+    enqueue(generate_psuedo_random());
     printHeap();
 }
 
 void enqueue_multiple_elements_to_heap() {
     init(); printHeap();
-    enqueue((double) time(NULL));     printHeap();
-    enqueue((double) time(NULL) + 9); printHeap();
-    enqueue((double) time(NULL) + 8); printHeap();
-    enqueue((double) time(NULL) + 2); printHeap();
-    enqueue((double) time(NULL) + 6); printHeap();
-    enqueue((double) time(NULL) + 5); printHeap();
-    enqueue((double) time(NULL) + 7); printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
 }
 
 void dequeue_from_empty_heap() {
@@ -33,13 +51,16 @@ void dequeue_from_empty_heap() {
 
 void dequeue_from_heap() {
     init(); printHeap();
-    enqueue((double) time(NULL));     printHeap();
-    enqueue((double) time(NULL) + 9); printHeap();
-    enqueue((double) time(NULL) + 8); printHeap();
-    enqueue((double) time(NULL) + 2); printHeap();
-    enqueue((double) time(NULL) + 6); printHeap();
-    enqueue((double) time(NULL) + 5); printHeap();
-    enqueue((double) time(NULL) + 7); printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
+    enqueue(generate_psuedo_random());     printHeap();
     dequeue();  printHeap();
     dequeue();  printHeap();
     dequeue();  printHeap();
@@ -50,9 +71,9 @@ void dequeue_from_heap() {
 }
 
 void get_heap_size_test() {
-    enqueue((double) time(NULL) + 9);
-    enqueue((double) time(NULL) + 3);
-    enqueue((double) time(NULL) + 6);
+    enqueue(generate_psuedo_random());
+    enqueue(generate_psuedo_random());
+    enqueue(generate_psuedo_random());
     printHeap();
     printf("Expected 3 elements - result %d elements", getHeapSize());
 }
@@ -62,24 +83,23 @@ void generate_random_priority_test() {
     int sum = 0;
     int num_of_elements = 1000000;
     int randInt;
-    srand(time(0));
 
     for (i=0; i < num_of_elements; i++) {
-        randInt = increment_randomly();
+        randInt = generate_psuedo_random();
         sum += randInt;
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %lf - result %lf", 50.5, actualAverage);
+    printf("\nExpected %lf - result %lf", 500000000.0, actualAverage);
 }
 
 void populate_heap() {
     int i;
     double randPriority;
-    srand(time(0));
+    srand(POPULATION_SEED);
     int number_of_iterations = 100000;
     for (i=0; i< number_of_iterations; i++) {
-        randPriority = increment_randomly();
+        randPriority = generate_psuedo_random();
         enqueue(randPriority);
         //printf("%d", randPriority);
     }
@@ -90,16 +110,18 @@ void get_time_to_enqueue() {
     populate_heap();
     printf("List size: %d\n", getHeapSize());
     clock_t start, end;
-    srand(time(0));
-    double rand = increment_randomly();
-
     double sum = 0;
     double mean = 0;
     int i;
+
     for(i=0; i<100; i++){
+        srand48(seeds[i]);
+        double rand = generate_psuedo_random();
+
         start = clock();
         enqueue(rand);
         end = clock();
+
         sum += (end - start) / (double) CLOCKS_PER_SEC;
         dequeue();
     }
@@ -111,32 +133,33 @@ void get_time_to_dequeue() {
     populate_heap();
     printf("List size: %d\n", getHeapSize());
     clock_t start, end;
-    srand(time(0));
-    double rand = increment_randomly();
-
     double sum = 0;
     double mean = 0;
     int i;
+
     for(i=0; i<100; i++){
         start = clock();
         dequeue();
         end = clock();
         sum += (end - start) / (double) CLOCKS_PER_SEC;
         printf("sum: %lf\n", sum);
+
+        srand48(seeds[i]);
+        double rand = generate_psuedo_random();
         enqueue(rand);
     }
     mean = sum / 100;
     printf("\n\n%lf\n", mean);
 }
 
-
-void simulate_test(){
+void simulate_test(long seed){
     init();
     int number_of_enqueued_elements = 3;
-    int max_number_of_elements = 100000;
-    time_t t;
-    srand ((unsigned) time(&t));
-    enqueue((double) time(NULL));
+    int max_number_of_elements = 1000;
+    srand48(seed);
+
+    double initial_event = generate_psuedo_random();
+    enqueue(initial_event);
 
     while(getHeapSize() > 0 && getHeapSize() < max_number_of_elements){
         double timeStamp = dequeue().priority;
@@ -155,14 +178,17 @@ void get_time_of_simulation() {
     double sum = 0;
     double mean = 0;
     int i;
+    long seed;
 
     for(i=0; i<100; i++){
+        seed = seeds[i];
         start = clock();
-        simulate_test();
+        simulate_test(seed);
         end = clock();
 
         sum += (end - start) / (double) CLOCKS_PER_SEC;
     }
+
     mean = sum / 100;
     printf("\n\n%lf\n", mean);
 }

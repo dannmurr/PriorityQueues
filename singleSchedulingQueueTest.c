@@ -48,7 +48,7 @@ void generate_random_priority_test() {
         printf("%d ", randInt);
     }
     double actualAverage = (double) sum / num_of_elements;
-    printf("\nExpected %d - result %lf", 5.5, actualAverage);
+    printf("\nExpected %lf - result %lf", 5.5, actualAverage);
 }
 
 void populate_list() {
@@ -156,8 +156,8 @@ int main() {
     //dequeue_from_empty_list();
     //dequeue_element_from_list();
     //get_list_size_test();
-    //generate_random_priority_test();
+    generate_random_priority_test();
     //get_time_to_enqueue();
     //get_time_to_dequeue()
-    get_time_of_simulation();
+    //get_time_of_simulation();
 }

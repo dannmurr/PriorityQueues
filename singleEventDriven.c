@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<limits.h>
 #include<time.h>
+#include <math.h>
 
 struct Node {
 	double data;
@@ -53,15 +54,14 @@ int getListSize() {
 	return list_size;
 }
 
-double increment_randomly(){
-	return rand() % 98 + 2;
+double generate_psuedo_random(){
+	return floor(drand48() * 1000000000);
 }
 
 void generateEvent(double removedElementTimeStamp){
-	double newTime = removedElementTimeStamp + increment_randomly();
+	double newTime = removedElementTimeStamp + generate_psuedo_random();
 	enqueue(newTime);
-	//printf(" %lf ", newTime);
-
+	printf(" %lf ", newTime);
 }
 
 void printList() {
@@ -75,4 +75,10 @@ void printList() {
 		temp = temp->next;
 	}
 	printf("\n");
+}
+
+void flush_list() {
+    first = NULL;
+    last = NULL;
+    list_size = 0;
 }

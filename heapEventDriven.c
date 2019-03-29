@@ -4,6 +4,7 @@
 #include<float.h>
 #include<time.h>
 #include<sys/time.h>
+#include <math.h>
 
 struct Element{
     int label;
@@ -58,12 +59,13 @@ struct Element dequeue() {
     return minElement;
 }
 
-double increment_randomly(){
-    return rand() % 98 + 2;
+double generate_psuedo_random(){
+    return floor(drand48() * 1000000000);
 }
 
+
 void generateEvent(double removedElementTimeStamp){
-    double newTime = removedElementTimeStamp + increment_randomly();
+    double newTime = removedElementTimeStamp + generate_psuedo_random();
     enqueue(newTime);
     printf(" %lf ", newTime);
 }

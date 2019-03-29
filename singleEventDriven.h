@@ -12,8 +12,10 @@ void generateEvent(double removedElementTimeStamp);
 
 int getListSize();
 
-double increment_randomly();
+double generate_psuedo_random();
 
 void printList();
+
+void flush_list();
 
 #endif
