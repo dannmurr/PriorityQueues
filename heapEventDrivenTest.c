@@ -6,26 +6,6 @@
 #include<sys/time.h>
 #include "heapEventDriven.h"
 
-int simulate_test(){
-    init();
-    int number_of_enqueued_elements = 3;
-    int max_number_of_elements = 1000;
-    time_t t;
-    srand ((unsigned) time(&t));
-    enqueue((double) time(NULL));
-
-    while(getHeapSize() > 0 && getHeapSize() < max_number_of_elements){
-        double timeStamp = dequeue().priority;
-        int j;
-        printf("dequeued: %lf, enqueued: ", timeStamp);
-        for(j = 0; j < number_of_enqueued_elements; j++){
-            generateEvent(timeStamp);
-        }
-        printf(" - heap size: %d\n", getHeapSize());
-        printHeap();
-    }
-}
-
 void enqueue_to_empty_heap() {
     init();
     printHeap();
@@ -93,32 +73,98 @@ void generate_random_priority_test() {
     printf("\nExpected %lf - result %lf", 50.5, actualAverage);
 }
 
-create_populated_heap() {
-
-}
-
-void get_time_to_enqueue() {
-    init();
-    clock_t start, end;
-    int num_of_iterations = 100000;
+void populate_heap() {
     int i;
     double randPriority;
     srand(time(0));
-
-    printHeap();
-    while(i < num_of_iterations) {
+    int number_of_iterations = 100000;
+    for (i=0; i< number_of_iterations; i++) {
         randPriority = increment_randomly();
         enqueue(randPriority);
-        i++;
+        //printf("%d", randPriority);
     }
-    printHeap();
+    //printList();
+}
 
-    start = clock();
-    randPriority = increment_randomly();
-    enqueue(randPriority);
-    end = clock();
-    double time_to_enqueue = (end - start) / (double) CLOCKS_PER_SEC;
-    printf("\n\n%lf", time_to_enqueue);
+void get_time_to_enqueue() {
+    populate_heap();
+    printf("List size: %d\n", getHeapSize());
+    clock_t start, end;
+    srand(time(0));
+    double rand = increment_randomly();
+
+    double sum = 0;
+    double mean = 0;
+    int i;
+    for(i=0; i<100; i++){
+        start = clock();
+        enqueue(rand);
+        end = clock();
+        sum += (end - start) / (double) CLOCKS_PER_SEC;
+        dequeue();
+    }
+    mean = sum / 100;
+    printf("\n\n%lf\n", mean);
+}
+
+void get_time_to_dequeue() {
+    populate_heap();
+    printf("List size: %d\n", getHeapSize());
+    clock_t start, end;
+    srand(time(0));
+    double rand = increment_randomly();
+
+    double sum = 0;
+    double mean = 0;
+    int i;
+    for(i=0; i<100; i++){
+        start = clock();
+        dequeue();
+        end = clock();
+        sum += (end - start) / (double) CLOCKS_PER_SEC;
+        printf("sum: %lf\n", sum);
+        enqueue(rand);
+    }
+    mean = sum / 100;
+    printf("\n\n%lf\n", mean);
+}
+
+
+void simulate_test(){
+    init();
+    int number_of_enqueued_elements = 3;
+    int max_number_of_elements = 100000;
+    time_t t;
+    srand ((unsigned) time(&t));
+    enqueue((double) time(NULL));
+
+    while(getHeapSize() > 0 && getHeapSize() < max_number_of_elements){
+        double timeStamp = dequeue().priority;
+        int j;
+        //printf("dequeued: %lf, enqueued: ", timeStamp);
+        for(j = 0; j < number_of_enqueued_elements; j++){
+            generateEvent(timeStamp);
+        }
+        //printf(" - heap size: %d\n", getHeapSize());
+        //printHeap();
+    }
+}
+
+void get_time_of_simulation() {
+    clock_t start, end;
+    double sum = 0;
+    double mean = 0;
+    int i;
+
+    for(i=0; i<100; i++){
+        start = clock();
+        simulate_test();
+        end = clock();
+
+        sum += (end - start) / (double) CLOCKS_PER_SEC;
+    }
+    mean = sum / 100;
+    printf("\n\n%lf\n", mean);
 }
 
 int main() {
@@ -129,5 +175,6 @@ int main() {
     //dequeue_from_heap();
     //get_heap_size_test();
     //generate_random_priority_test();
-    get_time_to_enqueue();
+    //get_time_to_enqueue();
+    get_time_to_dequeue();
 }
